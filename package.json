@@ -1,0 +1,42 @@
+{
+  "name": "movies",
+  "version": "1.0.0",
+  "description": "Diplom backend api",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint .",
+    "deploy": "scp -r ./* iurii@178.154.215.6:/home/iurii/api-movies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iurii89/movies-explorer-api.git"
+  },
+  "author": "Iurii Mishanin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Iurii89/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Iurii89/movies-explorer-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "celebrate": "^14.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.3.0",
+    "express-winston": "^4.1.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
+  }
+}
