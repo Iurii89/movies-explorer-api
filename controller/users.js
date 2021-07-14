@@ -1,5 +1,6 @@
 const User = require('../models/user');
-const { NotFound, BadRequest } = require('../errors');
+const { NotFound, BadRequest, Conflict } = require('../errors');
+const { emailDuplicated, userNotFound, infoNotUpgrade } = require('../static/errorMessage');
 
 const getMe = (req, res, next) => {
   const id = req.user._id;
@@ -9,7 +10,7 @@ const getMe = (req, res, next) => {
       throw new NotFound('Пользователя не существует, требуется пройти регистрацию');
     })
     .then((user) => {
-      res.status(200).send(user);
+      res.send(user);
     })
     .catch(next);
 };
@@ -17,18 +18,27 @@ const getMe = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const { email, name } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, { email, name }, { runValidators: true, new: true })
-    .orFail(() => {
-      throw new NotFound('Такого пользователя не существует');
-    })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        const error = new BadRequest('Информация не обновлена. Ошибка данных');
-        return error;
+  User.findOne({ email })
+    .then((isEmail) => {
+      if (isEmail) {
+        throw new Conflict(emailDuplicated);
       }
-      return next(err);
-    });
+
+      User.findByIdAndUpdate(req.user._id, { email, name },
+        { runValidators: true, new: true })
+        .orFail(() => {
+          throw new NotFound(userNotFound);
+        })
+        .then((user) => res.send({ data: user }))
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            const error = new BadRequest(infoNotUpgrade);
+            return error;
+          }
+          return err;
+        });
+    })
+    .catch(next);
 };
 
 module.exports = {

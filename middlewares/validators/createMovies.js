@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const { urlError } = require('../../static/errorMessage');
 
 const createMoviesValidator = celebrate({
   body: Joi.object().keys({
@@ -12,22 +13,21 @@ const createMoviesValidator = celebrate({
       if (validator.isURL(value)) {
         return value;
       }
-      return helpers.message('Невалидная ссылка');
+      return helpers.message(urlError);
     }),
     trailer: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
-      return helpers.message('Невалидная ссылка');
+      return helpers.message(urlError);
     }),
     thumbnail: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
-      return helpers.message('Невалидная ссылка');
+      return helpers.message(urlError);
     }),
-    owner: Joi.string().required().length(24).hex(),
-    movieId: Joi.string().required().length(24).hex(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }).unknown(true),

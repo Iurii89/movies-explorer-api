@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { Conflict } = require('../errors');
 const User = require('../models/user');
+const { emailDuplicated } = require('../static/errorMessage');
 
 const register = (req, res, next) => {
   const { email, name, password } = req.body;
@@ -8,7 +9,7 @@ const register = (req, res, next) => {
   User.findOne({ email })
     .then((isEmail) => {
       if (isEmail) {
-        throw new Conflict('Такой Email уже зарагестрирован');
+        throw new Conflict(emailDuplicated);
       }
       return bcrypt.hash(password, 10);
     })
@@ -16,7 +17,7 @@ const register = (req, res, next) => {
       User.create({
         email, name, password: hashPassword,
       });
-      res.status(200).send({
+      res.send({
         email, name,
       });
     })

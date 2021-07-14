@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { urlError } = require('../static/errorMessage');
 
 const moviesSchema = new mongoose.Schema({
   country: {
@@ -29,7 +30,7 @@ const moviesSchema = new mongoose.Schema({
       validator(url) {
         return validator.isURL(url);
       },
-      message: 'Не валидный Url!',
+      message: urlError,
     },
   },
   trailer: {
@@ -39,7 +40,7 @@ const moviesSchema = new mongoose.Schema({
       validator(url) {
         return validator.isURL(url);
       },
-      message: 'Не валидный Url!',
+      message: urlError,
     },
   },
   thumbnail: {
@@ -49,7 +50,7 @@ const moviesSchema = new mongoose.Schema({
       validator(url) {
         return validator.isURL(url);
       },
-      message: 'Не валидный Url!',
+      message: urlError,
     },
   },
   owner: {
@@ -57,7 +58,7 @@ const moviesSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Types.ObjectId, // Нужно проверить
+    type: Number,
     required: true,
   },
   nameRU: {

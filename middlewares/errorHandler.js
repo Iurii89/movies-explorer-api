@@ -1,8 +1,8 @@
 const { CelebrateError } = require('celebrate');
 
-// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   if (err instanceof CelebrateError) {
+    console.log(next);
     return res.status(400).send(err.details.get('body'));
   }
 

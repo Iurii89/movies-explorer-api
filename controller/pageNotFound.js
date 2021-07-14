@@ -1,7 +1,8 @@
 const { NotFound } = require('../errors');
+const { pageNotFoundMessage } = require('../static/errorMessage');
 
 const pageNotFound = (req, res, next) => {
-  const error = new NotFound('Запрашиваемая страница не найдена');
+  const error = new NotFound(pageNotFoundMessage);
   return next(error);
 };
 

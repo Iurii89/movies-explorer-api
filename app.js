@@ -16,10 +16,10 @@ const app = express();
 
 mongooseConnect();
 
+app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
 
-app.use(requestLogger);
 app.use(express.json());
 app.use(corsSetting);
 

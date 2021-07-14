@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const { emailError } = require('../../static/errorMessage');
 
 const loginValidator = celebrate({
   body: Joi.object().keys({
@@ -9,7 +10,7 @@ const loginValidator = celebrate({
         return value;
       }
 
-      return helpers.message('Невалидный email');
+      return helpers.message(emailError);
     }),
   }).unknown(true),
 });
